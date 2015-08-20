@@ -1464,7 +1464,7 @@ void FillHisto2(const char *infile, const char *outfile, const char *flag = "sin
 	fiberRatio_ieta_4GeVMean_plus->Fill(i,slratio);
 
 	long_mean = recHitSumAllHF1_ieta_minus[i] / nEvents;
-	short_mean = recHitSumAllHF2_ieta_minus[2] / nEvents;
+	short_mean = recHitSumAllHF2_ieta_minus[i] / nEvents;
 
 	slratio = (long_mean <= 0 ? 0 : short_mean / long_mean);
 
