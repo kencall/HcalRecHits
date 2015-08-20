@@ -549,6 +549,7 @@ void FillHisto2(const char *infile, const char *outfile, const char *flag = "sin
 
   TProfile *fiberRatio_ieta_4GeVMean_plus = new TProfile("fiberRatio_ieta_4GeVMean_plus","fiberRatio_ieta_4GeVMean_plus",51,-0.5,50.5);
   TProfile *fiberRatio_ieta_4GeVMean_minus = new TProfile("fiberRatio_ieta_4GeVMean_minus","fiberRatio_ieta_4GeVMean_minus",51,-0.5,50.5);
+  TProfile *fiberRatio_ieta_4GeVMean = new TProfile("fiberRatio_ieta_4GeVMean","fiberRatio_ieta_4GeVMean",51,-0.5,50.5);
 
   TProfile *energyFlow_plus = new TProfile("energyFlow_plus","energyFlow_plus",46,-0.5,45.5);
   TProfile *energyFlow_minus = new TProfile("energyFlow_minus","energyFlow_minus",46,-0.5,45.5);
@@ -1456,19 +1457,34 @@ void FillHisto2(const char *infile, const char *outfile, const char *flag = "sin
   double short_mean = 0;
   double slratio = 0;
   for(int i = 0; i < 51; i++){
+    
+    // eta+
 	long_mean = recHitSumAllHF1_ieta_plus[i] / nEvents;
 	short_mean = recHitSumAllHF2_ieta_plus[i] / nEvents;
 
 	slratio = (long_mean <= 0 ? 0 : short_mean/long_mean);
 
+	printf("eta+: ieta,<E_S>,<E_L>,<E_S>/<E_L> %4d %8.2f %8.2f %8.2f\n",i,short_mean,long_mean,slratio);
 	fiberRatio_ieta_4GeVMean_plus->Fill(i,slratio);
 
+    // eta-
 	long_mean = recHitSumAllHF1_ieta_minus[i] / nEvents;
 	short_mean = recHitSumAllHF2_ieta_minus[i] / nEvents;
 
 	slratio = (long_mean <= 0 ? 0 : short_mean / long_mean);
 
+	printf("eta-: ieta,<E_S>,<E_L>,<E_S>/<E_L> %4d %8.2f %8.2f %8.2f\n",i,short_mean,long_mean,slratio);
 	fiberRatio_ieta_4GeVMean_minus->Fill(i,slratio);
+
+    // both
+	long_mean = (recHitSumAllHF1_ieta_plus[i]+recHitSumAllHF1_ieta_minus[i]) / nEvents;
+	short_mean = (recHitSumAllHF2_ieta_plus[i]+recHitSumAllHF2_ieta_minus[i]) / nEvents;
+
+	slratio = (long_mean <= 0 ? 0 : short_mean / long_mean);
+
+	printf("both: ieta,<E_S>,<E_L>,<E_S>/<E_L> %4d %8.2f %8.2f %8.2f\n",i,short_mean,long_mean,slratio);
+	fiberRatio_ieta_4GeVMean->Fill(i,slratio);
+
   }
 
 
