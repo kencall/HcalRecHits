@@ -298,7 +298,7 @@ void multiDrawComp2(const char *file1, const char *dataset1, const char *file2, 
   p1_1->GetZaxis()->SetLabelSize(0.035);
   p1_1->GetZaxis()->SetTitleSize(0.035);
   p1_1->GetZaxis()->SetTitleFont(42);
-  p1_1->Draw("");  
+  p1_1->Draw("hist p");  
 
   gPad->Update();
 
@@ -332,7 +332,7 @@ void multiDrawComp2(const char *file1, const char *dataset1, const char *file2, 
   p2_1->GetZaxis()->SetLabelSize(0.035);
   p2_1->GetZaxis()->SetTitleSize(0.035);
   p2_1->GetZaxis()->SetTitleFont(42);
-  p2_1->Draw("sames");  
+  p2_1->Draw("hist p sames");  
 
   gPad->Update();
   } //Second profile
@@ -367,7 +367,7 @@ void multiDrawComp2(const char *file1, const char *dataset1, const char *file2, 
   p1_2->GetZaxis()->SetLabelSize(0.035);
   p1_2->GetZaxis()->SetTitleSize(0.035);
   p1_2->GetZaxis()->SetTitleFont(42);
-  p1_2->Draw("sames");  
+  p1_2->Draw("hist p sames");  
 
   gPad->Update();
 
@@ -401,7 +401,7 @@ void multiDrawComp2(const char *file1, const char *dataset1, const char *file2, 
   p2_2->GetZaxis()->SetLabelSize(0.035);
   p2_2->GetZaxis()->SetTitleSize(0.035);
   p2_2->GetZaxis()->SetTitleFont(42);
-  p2_2->Draw("sames");  
+  p2_2->Draw("hist p sames");  
 
   gPad->Update();
   } //Second profile
@@ -437,7 +437,7 @@ void multiDrawComp2(const char *file1, const char *dataset1, const char *file2, 
     p1_3->GetZaxis()->SetLabelSize(0.035);
     p1_3->GetZaxis()->SetTitleSize(0.035);
     p1_3->GetZaxis()->SetTitleFont(42);
-    p1_3->Draw("sames");  
+    p1_3->Draw("hist p sames");  
 
     gPad->Update();
     
@@ -471,7 +471,7 @@ void multiDrawComp2(const char *file1, const char *dataset1, const char *file2, 
     p2_3->GetZaxis()->SetLabelSize(0.035);
     p2_3->GetZaxis()->SetTitleSize(0.035);
     p2_3->GetZaxis()->SetTitleFont(42);
-    p2_3->Draw("sames");  
+    p2_3->Draw("hist p sames");  
 
     gPad->Update();
     }//Second Profile
@@ -507,7 +507,7 @@ void multiDrawComp2(const char *file1, const char *dataset1, const char *file2, 
     p1_4->GetZaxis()->SetLabelSize(0.035);
     p1_4->GetZaxis()->SetTitleSize(0.035);
     p1_4->GetZaxis()->SetTitleFont(42);
-    p1_4->Draw("sames");  
+    p1_4->Draw("hist p sames");  
 
     gPad->Update();
     
@@ -541,7 +541,7 @@ void multiDrawComp2(const char *file1, const char *dataset1, const char *file2, 
     p2_4->GetZaxis()->SetLabelSize(0.035);
     p2_4->GetZaxis()->SetTitleSize(0.035);
     p2_4->GetZaxis()->SetTitleFont(42);
-    p2_4->Draw("sames");  
+    p2_4->Draw("hist p sames");  
 
     gPad->Update();
     }//Second Profile
