@@ -15,6 +15,7 @@
 #include <cmath>
 #include "TProfile2D.h"
 #include "TH2D.h"
+#include "TArrayD.h"
 
 
 void FillHistoW(const char *infile, const char *outfile, const char *flag = "single", const char *wfile = "none"){
@@ -226,6 +227,7 @@ void FillHistoW(const char *infile, const char *outfile, const char *flag = "sin
   int bin = 19;
 
   double nEvents = 0;
+  double nEventsNW = 0;
 
   double nRecHitsHB = 0;
   double nRecHitsHE = 0;
@@ -355,6 +357,9 @@ void FillHistoW(const char *infile, const char *outfile, const char *flag = "sin
   //TTreeReaderValue<std::vector<float>> recHitsHF2(*tReader, "recHitEn_HF2");
 
   f2->cd();
+
+  //Useful definitions
+  Double_t ieta_partitions[9] = {-21,-16,-12,-6,0,6,12,16,21};
 
   //Define the Histograms to be filled
 
@@ -504,23 +509,29 @@ void FillHistoW(const char *infile, const char *outfile, const char *flag = "sin
   TH2D *recHitHBM2M0Dist = new TH2D("recHitHBM2M0Dist","recHitHBM2M0Dist",2000,0,2000,40,0,2);
   TH2D *recHitHEM2M0Dist = new TH2D("recHitHEM2M0Dist","recHitHEM2M0Dist",2000,0,2000,40,0,2);
 
-  TH2D *recHitHBMRatio5plus = new TH2D("recHitHBMRatio5plus","recHitHBMRatio5plus",30,0,30,40,0,2);
-  TH2D *recHitHBMRatio5minus = new TH2D("recHitHBMRatio5minus","recHitHBMRatio5minus",30,0,30,40,0,2);
+  TH2D *recHitHBMRatio5plus = new TH2D("recHitHBMRatio5plus","recHitHBMRatio5plus",30,0,30,100,0,2);
+  TH2D *recHitHBMRatio5minus = new TH2D("recHitHBMRatio5minus","recHitHBMRatio5minus",30,0,30,100,0,2);
+  TH2D *recHitHBMRatio5Part = new TH2D("recHitHBMRatio5etaPart","recHitHBMRatio5etaPart",8,ieta_partitions,100,0,2);
 
-  TH2D *recHitHBMRatio10plus = new TH2D("recHitHBMRatio10plus","recHitHBMRatio10plus",30,0,30,40,0,2);
-  TH2D *recHitHBMRatio10minus = new TH2D("recHitHBMRatio10minus","recHitHBMRatio10minus",30,0,30,40,0,2);
+  TH2D *recHitHBMRatio10plus = new TH2D("recHitHBMRatio10plus","recHitHBMRatio10plus",30,0,30,100,0,2);
+  TH2D *recHitHBMRatio10minus = new TH2D("recHitHBMRatio10minus","recHitHBMRatio10minus",30,0,30,100,0,2);
+  TH2D *recHitHBMRatio10Part = new TH2D("recHitHBMRatio10etaPart","recHitHBMRatio10etaPart",8,ieta_partitions,100,0,2);
 
-  TH2D *recHitHBMRatio20plus = new TH2D("recHitHBMRatio20plus","recHitHBMRatio20plus",30,0,30,40,0,2);
-  TH2D *recHitHBMRatio20minus = new TH2D("recHitHBMRatio20minus","recHitHBMRatio20minus",30,0,30,40,0,2);
+  TH2D *recHitHBMRatio20plus = new TH2D("recHitHBMRatio20plus","recHitHBMRatio20plus",30,0,30,100,0,2);
+  TH2D *recHitHBMRatio20minus = new TH2D("recHitHBMRatio20minus","recHitHBMRatio20minus",30,0,30,100,0,2);
+  TH2D *recHitHBMRatio20Part = new TH2D("recHitHBMRatio20etaPart","recHitHBMRatio20etaPart",8,ieta_partitions,100,0,2);
 
-  TH2D *recHitHEMRatio5plus = new TH2D("recHitHEMRatio5plus","recHitHEMRatio5plus",30,0,30,40,0,2);
-  TH2D *recHitHEMRatio5minus = new TH2D("recHitHEMRatio5minus","recHitHEMRatio5minus",30,0,30,40,0,2);
+  TH2D *recHitHEMRatio5plus = new TH2D("recHitHEMRatio5plus","recHitHEMRatio5plus",30,0,30,100,0,2);
+  TH2D *recHitHEMRatio5minus = new TH2D("recHitHEMRatio5minus","recHitHEMRatio5minus",30,0,30,100,0,2);
+  TH2D *recHitHEMRatio5Part = new TH2D("recHitHEMRatio5etaPart","recHitHEMRatio5etaPart",8,ieta_partitions,100,0,2);
 
-  TH2D *recHitHEMRatio10plus = new TH2D("recHitHEMRatio10plus","recHitHEMRatio10plus",30,0,30,40,0,2);
-  TH2D *recHitHEMRatio10minus = new TH2D("recHitHEMRatio10minus","recHitHEMRatio10minus",30,0,30,40,0,2);
+  TH2D *recHitHEMRatio10plus = new TH2D("recHitHEMRatio10plus","recHitHEMRatio10plus",30,0,30,100,0,2);
+  TH2D *recHitHEMRatio10minus = new TH2D("recHitHEMRatio10minus","recHitHEMRatio10minus",30,0,30,100,0,2);
+  TH2D *recHitHEMRatio10Part = new TH2D("recHitHEMRatio10etaPart","recHitHEMRatio10etaPart",8,ieta_partitions,100,0,2);
 
-  TH2D *recHitHEMRatio20plus = new TH2D("recHitHEMRatio20plus","recHitHEMRatio20plus",30,0,30,40,0,2);
-  TH2D *recHitHEMRatio20minus = new TH2D("recHitHEMRatio20minus","recHitHEMRatio20minus",30,0,30,40,0,2);
+  TH2D *recHitHEMRatio20plus = new TH2D("recHitHEMRatio20plus","recHitHEMRatio20plus",30,0,30,100,0,2);
+  TH2D *recHitHEMRatio20minus = new TH2D("recHitHEMRatio20minus","recHitHEMRatio20minus",30,0,30,100,0,2);
+  TH2D *recHitHEMRatio20Part = new TH2D("recHitHEMRatio20etaPart","recHitHEMRatio20etaPart",8,ieta_partitions,100,0,2);
 
   TH2D *recHitHBM0M2Ratio = new TH2D("recHitHBM0M2Ratio","recHitHBM0M2Ratio",2000,0,2000,40,0,2);
   TH2D *recHitHEM0M2Ratio = new TH2D("recHitHEM0M2Ratio","recHitHEM0M2Ratio",2000,0,2000,40,0,2);
@@ -603,6 +614,10 @@ void FillHistoW(const char *infile, const char *outfile, const char *flag = "sin
   TProfile *HE_RecHitCutNum_ieta_plus = new TProfile("HE_RecHitCutNum_ieta_plus","HE_RecHitCutNum_ieta_plus",13,15.5,28.5);
   TProfile *HE_RecHitCutMeanEnergy_ieta_plus = new TProfile("HE_RecHitCutMeanEnergy_ieta_plus","HE_RecHitCutMeanEnergy_ieta_plus",13,15.5,28.5);
 
+  //We are going to use the following array to save information about the histograms.
+  //The first entry will be used to save the weighted nEvents
+  //The second entry will be used to save the unweighted nEvents
+  TArrayD *singleValues = new TArrayD(2);
   
   /*In general we don't need this
   int minEventNum = (int)tReader->GetTree()->GetMinimum("event");
@@ -658,9 +673,11 @@ void FillHistoW(const char *infile, const char *outfile, const char *flag = "sin
     //meanNVertx_lumi->Fill(*lumiID,*numVertices);
     //if(*numVertices != 1) continue;
     nEvents+=w;
+    nEventsNW += 1;
     
     if(debug){
-      if(nEvents > 100) break;
+      cout << "Processed: " << nEventsNW << " events." << endl;
+      if(nEventsNW > 100) break;
       cout << endl << "Event: " << nEvents << endl;
     }
 
@@ -1576,6 +1593,15 @@ void FillHistoW(const char *infile, const char *outfile, const char *flag = "sin
   recHitNum_ieta_s->Scale(1/(float)nEvents);
   recHitCutNum_ieta_s->Scale(1/(float)nEvents);
 
+  //Now let's save the single value parameters that we find interesting
+  //I'd like to be able to save this as a map in the future so
+  //That we do not have to assume we know the position in the array of
+  //the various values.
+  singleValues->SetAt(nEvents,0);
+  singleValues->SetAt(nEventsNW,1);  
+  f2->WriteObject(singleValues,"singleValues");
+
   f2->Write();
+  f2->Close();
 
 }
