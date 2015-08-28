@@ -28,12 +28,21 @@
 //
 //An aditional parameter is specified for the number of events to look at. This will be used for debugging, but in
 //production, I think that this should be left as -1
-void produceVertexWeights(const char *refFile, const char *secFile, const char *outFile, const char *flag = "single", int runlength = -1){
+
+//If distRef or distSec is set to something other than none, the macro will instead of treating it like a tree, instead look
+//for a distribution.
+void produceVertexWeights(const char *refFile, const char *secFile, const char *outFile, const char *flag = "single", int runlength = -1, const char *distRef = "none", const char *distSec = "none"){
 
   TTreeReader *tReaderRef, *tReaderSec;
 
   bool refsingle = true;
   bool secsingle = true;
+
+  bool refDFlag = false;
+  bool secDFlag = false;
+
+  TH1D *h_Ref;
+  TH1D *h_Sec;
 
   if(!strcmp(flag,"ref")){
 	refsingle = false;
@@ -52,6 +61,18 @@ void produceVertexWeights(const char *refFile, const char *secFile, const char *
 	secsingle = true;
   }
 
+  if(!strcmp(distRef,"none")){
+	refDFlag = false;
+  } else {
+	refDFlag = true;
+  }
+
+  if(!strcmp(distSec,"none")){
+	secDFlag = false;
+  } else {
+	secDFlag = true;
+  }
+
 
   //Open the first tree
   if(refsingle){
@@ -62,12 +83,23 @@ void produceVertexWeights(const char *refFile, const char *secFile, const char *
       return;
     }
     cout << "Opened Input file: " << refFile << endl;
-    tReaderRef = new TTreeReader("RecHitTree",f1);
-    if(!tReaderRef){
-	cout << "Failed to create TTreeReader object" << endl;
-	return;
-    } else {
-	cout << "TTreeReader object created" << endl;
+    if(!refDFlag){
+    	tReaderRef = new TTreeReader("RecHitTree",f1);
+    	if(!tReaderRef){
+		cout << "Failed to create TTreeReader object" << endl;
+		return;
+    	} else {
+		cout << "TTreeReader object created" << endl;
+    	}
+    }
+    if(refDFlag){
+	h_Ref = (TH1D*)f1->Get(distRef);
+	if(!h_Ref){
+		cout << "Failed to load histogram, " << distRef << " , from file, " << refFile << endl;
+		return;
+	} else {
+		cout << "Loaded histogram, " << distRef << " , from file, " << refFile << endl;
+	}
     }
 
   } else {
@@ -120,12 +152,24 @@ void produceVertexWeights(const char *refFile, const char *secFile, const char *
       return;
     }
     cout << "Opened Input file: " << secFile << endl;
-    tReaderSec = new TTreeReader("RecHitTree",f2);
-    if(!tReaderSec){
-	cout << "Failed to create TTreeReader object" << endl;
-	return;
-    } else {
-	cout << "TTreeReader object created" << endl;
+
+    if(!secDFlag){
+    	tReaderSec = new TTreeReader("RecHitTree",f2);
+    	if(!tReaderSec){
+		cout << "Failed to create TTreeReader object" << endl;
+		return;
+    	} else {
+		cout << "TTreeReader object created" << endl;
+    	}
+    }
+    if(secDFlag){
+	h_Sec = (TH1D*)f2->Get(distSec);
+	if(!h_Sec){
+		cout << "Failed to load histogram, " << distSec << ", from file, " << secFile << endl;
+		return;
+	} else {
+		cout << "Loaded histogram, " << distSec << ", from file, " << secFile << endl;
+	}
     }
 
   } else {
@@ -192,35 +236,58 @@ void produceVertexWeights(const char *refFile, const char *secFile, const char *
   int nEvents = 0;
   int curVertx;
 
+  int binIdx;
+
   //Define the branchs to be read
-  TTreeReaderValue<Int_t> numVerticesRef(*tReaderRef, "nVertices");
+
   TTreeReaderValue<Int_t> numVerticesSec(*tReaderSec, "nVertices");
 
-  //Loop over Reference tree
-  while(tReaderRef->Next()){
-    if(nEvents == 0) cout << "Starting Loop" << endl;
-    if(nEvents % 100 == 0) cout << "Processed " << nEvents << " events." << endl;
-    if(nEvents >= runlength && runlength != -1) break;
+  //Handle the Reference set -- Loop over Reference tree or convert provided nVertx distribution
+  if(!refDFlag){
+ 	TTreeReaderValue<Int_t> numVerticesRef(*tReaderRef, "nVertices");
+  	while(tReaderRef->Next()){
+    		if(nEvents == 0) cout << "Starting Loop" << endl;
+    		if(nEvents % 100 == 0) cout << "Processed " << nEvents << " events." << endl;
+    		if(nEvents >= runlength && runlength != -1) break;
 
-    curVertx = *numVerticesRef;
-    h_nVerticesRef->Fill(curVertx);
-    nEvents++;
+    		curVertx = *numVerticesRef;
+    		h_nVerticesRef->Fill(curVertx);
+    		nEvents++;
+  	}
+  	cout << "Finished looping over Reference Tree." << endl;
   }
-  cout << "Finished looping over Reference Tree." << endl;
+  if(refDFlag){
+	for(int i = 0; i <= nVertxMax; i++){
+		binIdx = h_Ref->GetXaxis()->FindBin(i);
+		h_nVerticesRef->SetBinContent(i+1, h_Ref->GetBinContent(binIdx));
+	}
+	cout << "Finished converting provided Reference distribution" << endl;
+  }
 
 
   //Loop over Second Tree
   nEvents = 0;
-  while(tReaderSec->Next()){
-    if(nEvents == 0) cout << "Starting Loop" << endl;
-    if(nEvents % 100 == 0) cout << "Processed " << nEvents << " events." << endl;
-    if(nEvents >= runlength && runlength != -1) break;
-
-    curVertx = *numVerticesSec;
-    h_nVerticesSec->Fill(curVertx);
-    nEvents++;
+  if(!secDFlag){
+	TTreeReaderValue<Int_t> numVerticesSec(*tReaderSec, "nVertices");
+  	while(tReaderSec->Next()){
+    		if(nEvents == 0) cout << "Starting Loop" << endl;
+    		if(nEvents % 100 == 0) cout << "Processed " << nEvents << " events." << endl;
+    		if(nEvents >= runlength && runlength != -1) break;
+	
+    		curVertx = *numVerticesSec;
+    		h_nVerticesSec->Fill(curVertx);
+    		nEvents++;
+  	}
+  	cout << "Finished looping over Second Tree." << endl;
   }
-  cout << "Finished looping over Second Tree." << endl;
+
+  if(secDFlag){
+	for(int i = 0; i <= nVertxMax; i++){
+		binIdx = h_Sec->GetXaxis()->FindBin(i);
+		h_nVerticesSec->SetBinContent(i+1, h_Sec->GetBinContent(binIdx));
+	}
+	cout << "Finished converting provided Second distribution" << endl;
+  }
 
   //Now we will normalize the distributions.
   double refIntegral = h_nVerticesRef->Integral();
