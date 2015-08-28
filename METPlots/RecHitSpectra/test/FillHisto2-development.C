@@ -333,7 +333,7 @@ void FillHisto2(const char *infile, const char *outfile, const char *flag = "sin
   f2->cd();
 
   //Useful definitions
-  Double_t ieta_partitions[9] = {-21,-16,-12,-6,0,6,12,16,21}
+  Double_t ieta_partitions[9] = {-21,-16,-12,-6,0,6,12,16,21};
 
   //Define the Histograms to be filled
 
@@ -480,35 +480,35 @@ void FillHisto2(const char *infile, const char *outfile, const char *flag = "sin
   TH2D *recHitHBM0M2 = new TH2D("recHitHBM0M2","recHitHBM0M2",2000,0,2000,2000,0,2000);
   TH2D *recHitHEM0M2 = new TH2D("recHitHEM0M2","recHitHEM0M2",2000,0,2000,2000,0,2000);
 
-  TH2D *recHitHBM2M0Dist = new TH2D("recHitHBM2M0Dist","recHitHBM2M0Dist",2000,0,2000,40,0,2);
-  TH2D *recHitHEM2M0Dist = new TH2D("recHitHEM2M0Dist","recHitHEM2M0Dist",2000,0,2000,40,0,2);
+  TH2D *recHitHBM2M0Dist = new TH2D("recHitHBM2M0Dist","recHitHBM2M0Dist",2000,0,2000,100,0,2);
+  TH2D *recHitHEM2M0Dist = new TH2D("recHitHEM2M0Dist","recHitHEM2M0Dist",2000,0,2000,100,0,2);
 
-  TH2D *recHitHBMRatio5plus = new TH2D("recHitHBMRatio5plus","recHitHBMRatio5plus",30,0,30,40,0,2);
-  TH2D *recHitHBMRatio5minus = new TH2D("recHitHBMRatio5minus","recHitHBMRatio5minus",30,0,30,40,0,2);
-  TH2D *recHitHBMRatio5etaPart = new TH2D("recHitHBMRatio5etaPart","recHitHBMRatio5etaPart",ieta_partitions,40,0,2);
+  TH2D *recHitHBMRatio5plus = new TH2D("recHitHBMRatio5plus","recHitHBMRatio5plus",30,0,30,100,0,2);
+  TH2D *recHitHBMRatio5minus = new TH2D("recHitHBMRatio5minus","recHitHBMRatio5minus",30,0,30,100,0,2);
+  TH2D *recHitHBMRatio5Part = new TH2D("recHitHBMRatio5etaPart","recHitHBMRatio5etaPart",8,ieta_partitions,100,0,2);
 
-  TH2D *recHitHBMRatio10plus = new TH2D("recHitHBMRatio10plus","recHitHBMRatio10plus",30,0,30,40,0,2);
-  TH2D *recHitHBMRatio10minus = new TH2D("recHitHBMRatio10minus","recHitHBMRatio10minus",30,0,30,40,0,2);
-  TH2D *recHitHBMRatio10etaPart = new TH2D("recHitHBMRatio10etaPart","recHitHBMRatio10etaPart",ieta_partitions,40,0,2);
+  TH2D *recHitHBMRatio10plus = new TH2D("recHitHBMRatio10plus","recHitHBMRatio10plus",30,0,30,100,0,2);
+  TH2D *recHitHBMRatio10minus = new TH2D("recHitHBMRatio10minus","recHitHBMRatio10minus",30,0,30,100,0,2);
+  TH2D *recHitHBMRatio10Part = new TH2D("recHitHBMRatio10etaPart","recHitHBMRatio10etaPart",8,ieta_partitions,100,0,2);
 
-  TH2D *recHitHBMRatio20plus = new TH2D("recHitHBMRatio20plus","recHitHBMRatio20plus",30,0,30,40,0,2);
-  TH2D *recHitHBMRatio20minus = new TH2D("recHitHBMRatio20minus","recHitHBMRatio20minus",30,0,30,40,0,2);
-  TH2D *recHitHBMRatio20etaPart = new TH2D("recHitHBMRatio20etaPart","recHitHBMRatio20etaPart",ieta_partitions,40,0,2);
+  TH2D *recHitHBMRatio20plus = new TH2D("recHitHBMRatio20plus","recHitHBMRatio20plus",30,0,30,100,0,2);
+  TH2D *recHitHBMRatio20minus = new TH2D("recHitHBMRatio20minus","recHitHBMRatio20minus",30,0,30,100,0,2);
+  TH2D *recHitHBMRatio20Part = new TH2D("recHitHBMRatio20etaPart","recHitHBMRatio20etaPart",8,ieta_partitions,100,0,2);
 
-  TH2D *recHitHEMRatio5plus = new TH2D("recHitHEMRatio5plus","recHitHEMRatio5plus",30,0,30,40,0,2);
-  TH2D *recHitHEMRatio5minus = new TH2D("recHitHEMRatio5minus","recHitHEMRatio5minus",30,0,30,40,0,2);
-  TH2D *recHitHEMRatio5etaPart = new TH2D("recHitHEMRatio5etaPart","recHitHEMRatio5etaPart",ieta_partitions,40,0,2);
+  TH2D *recHitHEMRatio5plus = new TH2D("recHitHEMRatio5plus","recHitHEMRatio5plus",30,0,30,100,0,2);
+  TH2D *recHitHEMRatio5minus = new TH2D("recHitHEMRatio5minus","recHitHEMRatio5minus",30,0,30,100,0,2);
+  TH2D *recHitHEMRatio5Part = new TH2D("recHitHEMRatio5etaPart","recHitHEMRatio5etaPart",8,ieta_partitions,100,0,2);
 
-  TH2D *recHitHEMRatio10plus = new TH2D("recHitHEMRatio10plus","recHitHEMRatio10plus",30,0,30,40,0,2);
-  TH2D *recHitHEMRatio10minus = new TH2D("recHitHEMRatio10minus","recHitHEMRatio10minus",30,0,30,40,0,2);
-  TH2D *recHitHEMRatio10etaPart = new TH2D("recHitHEMRatio10etaPart","recHitHEMRatio10etaPart",ieta_partitions,40,0,2);
+  TH2D *recHitHEMRatio10plus = new TH2D("recHitHEMRatio10plus","recHitHEMRatio10plus",30,0,30,100,0,2);
+  TH2D *recHitHEMRatio10minus = new TH2D("recHitHEMRatio10minus","recHitHEMRatio10minus",30,0,30,100,0,2);
+  TH2D *recHitHEMRatio10Part = new TH2D("recHitHEMRatio10etaPart","recHitHEMRatio10etaPart",8,ieta_partitions,100,0,2);
 
-  TH2D *recHitHEMRatio20plus = new TH2D("recHitHEMRatio20plus","recHitHEMRatio20plus",30,0,30,40,0,2);
-  TH2D *recHitHEMRatio20minus = new TH2D("recHitHEMRatio20minus","recHitHEMRatio20minus",30,0,30,40,0,2);
-  TH2D *recHitHEMRatio20etaPart = new TH2D("recHitHEMRatio20etaPart","recHitHEMRatio20etaPart",ieta_partitions,40,0,2);
+  TH2D *recHitHEMRatio20plus = new TH2D("recHitHEMRatio20plus","recHitHEMRatio20plus",30,0,30,100,0,2);
+  TH2D *recHitHEMRatio20minus = new TH2D("recHitHEMRatio20minus","recHitHEMRatio20minus",30,0,30,100,0,2);
+  TH2D *recHitHEMRatio20Part = new TH2D("recHitHEMRatio20etaPart","recHitHEMRatio20etaPart",8,ieta_partitions,100,0,2);
 
-  TH2D *recHitHBM0M2Ratio = new TH2D("recHitHBM0M2Ratio","recHitHBM0M2Ratio",2000,0,2000,40,0,2);
-  TH2D *recHitHEM0M2Ratio = new TH2D("recHitHEM0M2Ratio","recHitHEM0M2Ratio",2000,0,2000,40,0,2);
+  TH2D *recHitHBM0M2Ratio = new TH2D("recHitHBM0M2Ratio","recHitHBM0M2Ratio",2000,0,2000,100,0,2);
+  TH2D *recHitHEM0M2Ratio = new TH2D("recHitHEM0M2Ratio","recHitHEM0M2Ratio",2000,0,2000,100,0,2);
   
   //Timing map
 
@@ -588,7 +588,7 @@ void FillHisto2(const char *infile, const char *outfile, const char *flag = "sin
   TProfile *HE_RecHitCutNum_ieta_plus = new TProfile("HE_RecHitCutNum_ieta_plus","HE_RecHitCutNum_ieta_plus",13,15.5,28.5);
   TProfile *HE_RecHitCutMeanEnergy_ieta_plus = new TProfile("HE_RecHitCutMeanEnergy_ieta_plus","HE_RecHitCutMeanEnergy_ieta_plus",13,15.5,28.5);
 
-  
+/*  
   int minEventNum = (int)tReader->GetTree()->GetMinimum("event");
   int maxEventNum = (int)tReader->GetTree()->GetMaximum("event");
 
@@ -617,7 +617,7 @@ void FillHisto2(const char *infile, const char *outfile, const char *flag = "sin
 
   TProfile *meanNVertx_event = new TProfile("meanNVertx_event","meanNVertx_event",100,minEventNum-0.5,maxEventNum+0.5);
   TProfile *meanNVertx_lumi = new TProfile("meanNVertx_lumi","meanNVertx_lumi",(lumisInRange < bestBinsNumber ? lumisInRange: bestBinsNumber), minLumiBlock-0.5, maxLumiBlock+0.5);
-
+*/
 
   int nRecHitsHE_ieta[13] = {0};
   int nRecHitsCutHE_ieta[13] = {0};
@@ -633,9 +633,10 @@ void FillHisto2(const char *infile, const char *outfile, const char *flag = "sin
     numRecHits = 0;
     //Reject any event where nVertx != 1
     nVertxAll->Fill(*numVertices);
-    meanNVertx_event->Fill(*eventID,*numVertices);
-    meanNVertx_lumi->Fill(*lumiID,*numVertices);
-    if(*numVertices != 1) continue;
+    //meanNVertx_event->Fill(*eventID,*numVertices);
+    //meanNVertx_lumi->Fill(*lumiID,*numVertices);
+    //Uncomment the next line for normalization to nVertx == 1
+    //if(*numVertices != 1) continue;
     nEvents++;
     
     if(debug){
@@ -707,16 +708,19 @@ void FillHisto2(const char *infile, const char *outfile, const char *flag = "sin
       if(enRaw > 5){
 	if(recHitIeta > 0) recHitHBMRatio5plus->Fill(recHitIeta,MRatio);
 	if(recHitIeta < 0) recHitHBMRatio5minus->Fill(-recHitIeta,MRatio);
+	recHitHBMRatio5Part->Fill(recHitIeta,MRatio);
       }
 
       if(enRaw > 10){
 	if(recHitIeta > 0) recHitHBMRatio10plus->Fill(recHitIeta,MRatio);
 	if(recHitIeta < 0) recHitHBMRatio10minus->Fill(-recHitIeta,MRatio);
+	recHitHBMRatio10Part->Fill(recHitIeta,MRatio);
       }
 
       if(enRaw > 20){
 	if(recHitIeta > 0) recHitHBMRatio20plus->Fill(recHitIeta,MRatio);
 	if(recHitIeta < 0) recHitHBMRatio20minus->Fill(-recHitIeta,MRatio);
+	recHitHBMRatio20Part->Fill(recHitIeta,MRatio);
       }
 
       recHitNum_ieta->Fill(recHitIeta);
@@ -788,16 +792,19 @@ void FillHisto2(const char *infile, const char *outfile, const char *flag = "sin
       if(enRaw > 5){
         if(recHitIeta > 0) recHitHBMRatio5plus->Fill(recHitIeta,MRatio);
         if(recHitIeta < 0) recHitHBMRatio5minus->Fill(-recHitIeta,MRatio);
+        recHitHBMRatio5Part->Fill(recHitIeta,MRatio);
       }
 
       if(enRaw > 10){
         if(recHitIeta > 0) recHitHBMRatio10plus->Fill(recHitIeta,MRatio);
         if(recHitIeta < 0) recHitHBMRatio10minus->Fill(-recHitIeta,MRatio);
+        recHitHBMRatio10Part->Fill(recHitIeta,MRatio);
       }
 
       if(enRaw > 20){
         if(recHitIeta > 0) recHitHBMRatio20plus->Fill(recHitIeta,MRatio);
         if(recHitIeta < 0) recHitHBMRatio20minus->Fill(-recHitIeta,MRatio);
+        recHitHBMRatio20Part->Fill(recHitIeta,MRatio);
       }
 
 
@@ -888,16 +895,19 @@ void FillHisto2(const char *infile, const char *outfile, const char *flag = "sin
       if(enRaw > 5){
         if(recHitIeta > 0) recHitHEMRatio5plus->Fill(recHitIeta,MRatio);
         if(recHitIeta < 0) recHitHEMRatio5minus->Fill(-recHitIeta,MRatio);
+        recHitHEMRatio5Part->Fill(recHitIeta,MRatio);
       }
 
       if(enRaw > 10){
         if(recHitIeta > 0) recHitHEMRatio10plus->Fill(recHitIeta,MRatio);
         if(recHitIeta < 0) recHitHEMRatio10minus->Fill(-recHitIeta,MRatio);
+        recHitHEMRatio10Part->Fill(recHitIeta,MRatio);
       }
 
       if(enRaw > 20){
         if(recHitIeta > 0) recHitHEMRatio20plus->Fill(recHitIeta,MRatio);
         if(recHitIeta < 0) recHitHEMRatio20minus->Fill(-recHitIeta,MRatio);
+        recHitHEMRatio20Part->Fill(recHitIeta,MRatio);
       }
 
 
@@ -975,16 +985,19 @@ void FillHisto2(const char *infile, const char *outfile, const char *flag = "sin
       if(enRaw > 5){
         if(recHitIeta > 0) recHitHEMRatio5plus->Fill(recHitIeta,MRatio);
         if(recHitIeta < 0) recHitHEMRatio5minus->Fill(-recHitIeta,MRatio);
+        recHitHEMRatio5Part->Fill(recHitIeta,MRatio);
       }
 
       if(enRaw > 10){
         if(recHitIeta > 0) recHitHEMRatio10plus->Fill(recHitIeta,MRatio);
         if(recHitIeta < 0) recHitHEMRatio10minus->Fill(-recHitIeta,MRatio);
+        recHitHEMRatio10Part->Fill(recHitIeta,MRatio);
       }
 
       if(enRaw > 20){
         if(recHitIeta > 0) recHitHEMRatio20plus->Fill(recHitIeta,MRatio);
         if(recHitIeta < 0) recHitHEMRatio20minus->Fill(-recHitIeta,MRatio);
+        recHitHEMRatio20Part->Fill(recHitIeta,MRatio);
       }
 
 
@@ -1061,16 +1074,19 @@ void FillHisto2(const char *infile, const char *outfile, const char *flag = "sin
       if(enRaw > 5){
         if(recHitIeta > 0) recHitHEMRatio5plus->Fill(recHitIeta,MRatio);
         if(recHitIeta < 0) recHitHEMRatio5minus->Fill(-recHitIeta,MRatio);
+        recHitHEMRatio5Part->Fill(recHitIeta,MRatio);
       }
 
       if(enRaw > 10){
         if(recHitIeta > 0) recHitHEMRatio10plus->Fill(recHitIeta,MRatio);
         if(recHitIeta < 0) recHitHEMRatio10minus->Fill(-recHitIeta,MRatio);
+        recHitHEMRatio10Part->Fill(recHitIeta,MRatio);
       }
 
       if(enRaw > 20){
         if(recHitIeta > 0) recHitHEMRatio20plus->Fill(recHitIeta,MRatio);
         if(recHitIeta < 0) recHitHEMRatio20minus->Fill(-recHitIeta,MRatio);
+        recHitHEMRatio20Part->Fill(recHitIeta,MRatio);
       }
 
 
