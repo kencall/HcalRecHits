@@ -1,0 +1,7 @@
+cd $PBS_O_WORKDIR
+
+source ~cmssoft/shrc
+eval `scramv1 runtime -sh`
+export X509_USER_PROXY=~/.x509_user_proxy
+
+root -b -q -l '../../FillHisto1vtx.C("../../Trees/kodiak/ZeroBias255019-split/ZeroBias-255019-af","Histos-255019-af.root","list")'

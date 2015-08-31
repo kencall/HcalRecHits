@@ -1,0 +1,7 @@
+cd $PBS_O_WORKDIR
+
+source ~cmssoft/shrc
+eval `scramv1 runtime -sh`
+export X509_USER_PROXY=~/.x509_user_proxy
+
+root -b -q -l '../../FillHisto2.C("/home/kencall/development/RecHitSpectra/CMSSW_7_4_3/src/METPlots/RecHitSpectra/test/DATA/SingleNeutrino25ns/HcalRecHitSpectra-SingleNeutrino25ns-ag-fixed.root","Histos-SingleNeutrino25ns-ag.root","single")'
