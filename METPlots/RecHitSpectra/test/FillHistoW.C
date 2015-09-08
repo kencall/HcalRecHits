@@ -153,10 +153,15 @@ void FillHistoW(const char *infile, const char *outfile, const char *flag = "sin
 
   int nMaxVertx = 60;
   double weights[nMaxVertx+1];
+  bool singleV = false;
 
   if(!strcmp(wfile,"none")){
 	for(int i = 0; i <= nMaxVertx; i++) weights[i] = 1;
 	cout << "No reweighting will be done." << endl;
+  } else if(!strcmp(wfile,"singleV")){
+	for(int i = 0; i <= nMaxVertx; i++) weights[i] = 1;
+	singleV = true;
+	cout << "Only Single Vertex events will be considered" << endl;
   } else {
 	TFile *inWeightFile = new TFile(wfile);
 	if(inWeightFile->IsZombie()){
@@ -669,6 +674,7 @@ void FillHistoW(const char *infile, const char *outfile, const char *flag = "sin
     numRecHits = 0;
     //Reject any event where nVertx != 1
     nVertxAll->Fill(*numVertices);
+    if(*numVertices != 1 && singleV) continue;
     //meanNVertx_event->Fill(*eventID,*numVertices);
     //meanNVertx_lumi->Fill(*lumiID,*numVertices);
     //if(*numVertices != 1) continue;
