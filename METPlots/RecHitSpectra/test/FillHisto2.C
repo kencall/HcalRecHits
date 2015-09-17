@@ -17,7 +17,7 @@
 #include "TH2D.h"
 
 
-void FillHisto2(const char *infile, const char *outfile, const char *flag = "single"){
+void FillHisto2(const char *infile, const char *outfile, const char *flag = "single", const char *oflag = "none"){
 
   /*1 0.000 0.087 
 2 0.087 0.174
@@ -149,6 +149,10 @@ void FillHisto2(const char *infile, const char *outfile, const char *flag = "sin
 
 
   TTreeReader *tReader;
+
+  bool byLumi = false;
+
+  if(!strcmp(oflag,"byLumi")) byLumi = true;
 
   if(!strcmp(flag,"single")){
 
@@ -588,36 +592,44 @@ void FillHisto2(const char *infile, const char *outfile, const char *flag = "sin
   TProfile *HE_RecHitCutNum_ieta_plus = new TProfile("HE_RecHitCutNum_ieta_plus","HE_RecHitCutNum_ieta_plus",13,15.5,28.5);
   TProfile *HE_RecHitCutMeanEnergy_ieta_plus = new TProfile("HE_RecHitCutMeanEnergy_ieta_plus","HE_RecHitCutMeanEnergy_ieta_plus",13,15.5,28.5);
 
-/*  
-  int minEventNum = (int)tReader->GetTree()->GetMinimum("event");
-  int maxEventNum = (int)tReader->GetTree()->GetMaximum("event");
+  int minEventNum = 0;
+  int maxEventNum = 100;
+  int lumisInRange = 100;
+  int bestBinsNumber = 100;
+  int minLumiBlock = 0;
+  int maxLumiBlock = 100;
 
-  cout << "Minimum event number: " << minEventNum << endl;
-  cout << "Maximum event number: " << maxEventNum << endl;
+  if(byLumi){  
+     minEventNum = (int)tReader->GetTree()->GetMinimum("event");
+     maxEventNum = (int)tReader->GetTree()->GetMaximum("event");
 
-  //As is this lumi code may only work correctly for datasets confined to a single run
-  int minLumiBlock = (int)tReader->GetTree()->GetMinimum("lumi");
-  int maxLumiBlock = (int)tReader->GetTree()->GetMaximum("lumi");
-  int lumisInRange = maxLumiBlock - minLumiBlock + 1;
+    cout << "Minimum event number: " << minEventNum << endl;
+    cout << "Maximum event number: " << maxEventNum << endl;
 
-  //Find good number of bins
-  int minRemainder = lumisInRange;
-  int maxBinsNumber = 100; //The maximum number of bins that we want to consider
-  int minBinsNumber = 75; //The minimum number of bins that we want to consider
-  int bestBinsNumber = maxBinsNumber; // This is updated as we test
+    //As is this lumi code may only work correctly for datasets confined to a single run
+     minLumiBlock = (int)tReader->GetTree()->GetMinimum("lumi");
+    maxLumiBlock = (int)tReader->GetTree()->GetMaximum("lumi");
+    lumisInRange = maxLumiBlock - minLumiBlock + 1;
 
-  for(int i = maxBinsNumber; i >= minBinsNumber; i--){
-    if(lumisInRange % i < minRemainder){
-      bestBinsNumber = i;
-      minRemainder = lumisInRange % i;
-      cout << "Current best bins number: " << bestBinsNumber << " Remainder: " << minRemainder << endl;
+    //Find good number of bins
+    int minRemainder = lumisInRange;
+    int maxBinsNumber = 100; //The maximum number of bins that we want to consider
+    int minBinsNumber = 75; //The minimum number of bins that we want to consider
+    bestBinsNumber = maxBinsNumber; // This is updated as we test
+
+    for(int i = maxBinsNumber; i >= minBinsNumber; i--){
+      if(lumisInRange % i < minRemainder){
+	bestBinsNumber = i;
+	minRemainder = lumisInRange % i;
+	cout << "Current best bins number: " << bestBinsNumber << " Remainder: " << minRemainder << endl;
+      }
     }
   }
 
-
-  TProfile *meanNVertx_event = new TProfile("meanNVertx_event","meanNVertx_event",100,minEventNum-0.5,maxEventNum+0.5);
-  TProfile *meanNVertx_lumi = new TProfile("meanNVertx_lumi","meanNVertx_lumi",(lumisInRange < bestBinsNumber ? lumisInRange: bestBinsNumber), minLumiBlock-0.5, maxLumiBlock+0.5);
-*/
+  TProfile *meanNVertx_event = new TProfile("meanNVertx_event","meanNVertx_event",100,minEventNum,maxEventNum);
+  TProfile *meanNVertx_lumi = new TProfile("meanNVertx_lumi","meanNVertx_lumi",(lumisInRange < bestBinsNumber ? lumisInRange: bestBinsNumber), minLumiBlock, maxLumiBlock);
+  TH1D *oneVertxEvents_lumi = new TH1D("oneVertxEvents_lumi","oneVertxEvents_lumi",(lumisInRange < bestBinsNumber ? lumisInRange: bestBinsNumber), minLumiBlock, maxLumiBlock);
+  
 
   int nRecHitsHE_ieta[13] = {0};
   int nRecHitsCutHE_ieta[13] = {0};
@@ -633,8 +645,11 @@ void FillHisto2(const char *infile, const char *outfile, const char *flag = "sin
     numRecHits = 0;
     //Reject any event where nVertx != 1
     nVertxAll->Fill(*numVertices);
-    //meanNVertx_event->Fill(*eventID,*numVertices);
-    //meanNVertx_lumi->Fill(*lumiID,*numVertices);
+    if(byLumi){
+      meanNVertx_event->Fill(*eventID,*numVertices);
+      meanNVertx_lumi->Fill(*lumiID,*numVertices);
+      if(*numVertices == 1) oneVertxEvents_lumi->Fill(*lumiID);
+    }
     //Uncomment the next line for normalization to nVertx == 1
     //if(*numVertices != 1) continue;
     nEvents++;
