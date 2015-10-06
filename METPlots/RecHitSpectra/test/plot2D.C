@@ -30,6 +30,8 @@ void plot2D(const char *infile, const char *histName, const char *histTitle, con
 
    map->Draw("colorz");
 
+   Canvas->SetLogz();
+	
   Canvas->Modified();
   Canvas->cd();
   Canvas->SetSelected(Canvas);
