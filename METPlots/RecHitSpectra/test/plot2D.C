@@ -3,7 +3,7 @@ void plot2D(const char *infile, const char *histName, const char *histTitle, con
 
    gROOT->SetBatch(kTRUE);
 
-   TCanvas *Canvas = new TCanvas("Canvas", "Canvas",260,124,998,761);
+   TCanvas *Canvas = new TCanvas("Canvas", "Canvas",260,124,1100,761);
 
    Canvas->SetGridx();
    Canvas->SetGridy();
