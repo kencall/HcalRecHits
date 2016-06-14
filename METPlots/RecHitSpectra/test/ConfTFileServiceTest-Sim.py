@@ -18,7 +18,7 @@ process.options = cms.untracked.PSet( wantSummary = cms.untracked.bool(True) )
 
 #mylist = FileUtils.loadListFromFile ('dataset.txt')
 
-process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(100) )
+process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
 
 process.MessageLogger.cerr.FwkReport.reportEvery = 500
 
@@ -31,7 +31,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 500
 #process.GlobalTag.globaltag = 'MCRUN2_74_V8B::All'
 
 from Configuration.AlCa.GlobalTag import GlobalTag
-process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:run2_mc', '')
+process.GlobalTag = GlobalTag(process.GlobalTag, '80X_mcRun2_asymptotic_v14', '')
 
 process.source = cms.Source("PoolSource",
     # replace 'myfile.root' with the source file you want to use
@@ -54,7 +54,7 @@ process.source = cms.Source("PoolSource",
 ##########
 
 
-process.TFileService = cms.Service("TFileService", fileName = cms.string("SimHits-TTBar2.root") )
+process.TFileService = cms.Service("TFileService", fileName = cms.string("SimHits-TTBar6.root") )
 
 #process.load('RecoLocalCalo/HcalRecAlgos/hcalRecAlgoESProd_cfi')
 
@@ -75,6 +75,7 @@ process.TFileService = cms.Service("TFileService", fileName = cms.string("SimHit
 #)
 
 process.load('METPlots/RecHitSpectra/SimHitTree_cfi')
+process.hcalSimHitTree.TestNumbering = cms.untracked.bool(True)
 
 process.plots = cms.Path(process.hcalSimHitTree)
 

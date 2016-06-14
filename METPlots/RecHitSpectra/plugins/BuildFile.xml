@@ -21,4 +21,5 @@
 <use   name="hepmc"/>
 <use name="PhysicsTools/UtilAlgos"/>
 <use name="FWCore/ServiceRegistry"/>
+<use name="SimCalorimetry/HcalSimProducers"/>
 <flags EDM_PLUGIN="1"/>

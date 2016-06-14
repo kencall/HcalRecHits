@@ -1,4 +1,4 @@
-/ -*- C++ -*-
+// -*- C++ -*-
 //
 // Package:    test/SimHitTree
 // Class:      SimHitTree
@@ -55,6 +55,7 @@
 #include "SimDataFormats/CaloHit/interface/PCaloHitContainer.h"
 #include "Geometry/CaloGeometry/interface/CaloGeometry.h"
 #include "Geometry/CaloGeometry/interface/CaloCellGeometry.h"
+#include "Geometry/HcalCommonData/interface/HcalDDDRecConstants.h"
 
 #include "FWCore/Framework/interface/Frameworkfwd.h"
 #include "FWCore/Framework/interface/Event.h"
@@ -76,6 +77,9 @@
  
 #include "SimDataFormats/CaloHit/interface/PCaloHitContainer.h"
  
+//relabeling of test configs
+#include "SimCalorimetry/HcalSimProducers/interface/HcalHitRelabeller.h"
+
 #include <vector>
 #include <utility>
 #include <ostream>
@@ -122,8 +126,15 @@ class SimHitTree : public edm::stream::EDFilter<> {
 	//SimHit Stuff
 	edm::EDGetTokenT<edm::PCaloHitContainer> tok_hcal_;
 	edm::ESHandle<CaloGeometry> geometry ;
+	edm::ESHandle<HcalDDDRecConstants> pHRNDC;
+
+	const CaloGeometry * theGeometry;
+	const HcalDDDRecConstants * theRecNumber;
 
 	int sub_;
+	bool testNumbering_;
+
+	HcalHitRelabeller *theRelabeller;
 };
 
 //
@@ -142,6 +153,12 @@ SimHitTree::SimHitTree(const edm::ParameterSet& iConfig)
 	tok_hcal_ = consumes<edm::PCaloHitContainer>(iConfig.getUntrackedParameter<edm::InputTag>("SimHitCollectionLabel"));
 	
 	sub_ = iConfig.getUntrackedParameter<int>("SubDetector");
+
+	testNumbering_ = iConfig.getParameter<bool>("TestNumbering");
+	if (testNumbering_){
+		theRelabeller=new HcalHitRelabeller(iConfig);
+		std::cout << "Test numbering enabled" << std::endl;
+	}
 
 	edm::Service<TFileService> fs;
 	tt1 = fs->make<TTree>("SimHitTree","SimHitTree");
@@ -182,13 +199,22 @@ SimHitTree::filter(edm::Event& iEvent, const edm::EventSetup& iSetup)
 	//////////////////////////////////
 	edm::Handle<std::vector<PCaloHit>> hcalHits;
 	iEvent.getByToken(tok_hcal_,hcalHits);
-	const std::vector<PCaloHit> * SimHitResult = hcalHits.product () ;
+	std::vector<PCaloHit>  SimHitResult = *hcalHits.product () ;
 
-	iSetup.get<CaloGeometryRecord>().get (geometry);
+	if(testNumbering_){
+		iSetup.get<CaloGeometryRecord>().get(geometry);
+		iSetup.get<HcalRecNumberingRecord>().get(pHRNDC);
+		theGeometry = &*geometry;
+		theRecNumber= &*pHRNDC;
+		theRelabeller->setGeometry(theGeometry,theRecNumber);
+		//std::cout << "Provided Geometry and Rec Numbering" << std::endl;
 
-//	if(sub_ != 3) return 0;
+		theRelabeller->process(SimHitResult);
+	}
 
-	for (std::vector<PCaloHit>::const_iterator SimHits = SimHitResult->begin () ; SimHits != SimHitResult->end(); ++SimHits){
+//	std::cout << "sub_ = " << sub_ << std::endl;
+
+	for (std::vector<PCaloHit>::const_iterator SimHits = SimHitResult.begin () ; SimHits != SimHitResult.end(); ++SimHits){
 		HcalDetId cell(SimHits->id());
 		double en   = SimHits->energy();    
  
@@ -226,9 +252,10 @@ SimHitTree::endStream() {
 // ------------ method called when starting to processes a run  ------------
 /*
 void
-SimHitTree::beginRun(edm::Run const&, edm::EventSetup const&)
+SimHitTree::beginRun(edm::Run const&, edm::EventSetup const& es)
 { 
-}
+
+}	
 */
  
 // ------------ method called when ending the processing of a run  ------------
