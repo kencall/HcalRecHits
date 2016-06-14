@@ -12,7 +12,8 @@
 
 void multiDrawComp(const char *file1, const char *dataset1, const char *file2, const char* dataset2,
 	      const char *histname, const char *histtitle, const char *xtitle,  const char *ytitle, const char *outfile,
-		   const char *file3 = "none", const char *dataset3 = "none", const char *file4 ="none", const char *dataset4 = "none", const char *sbox = "True"){
+		   const char *file3 = "none", const char *dataset3 = "none", 
+		const char *file4 ="none", const char *dataset4 = "none", const char *sbox = "True"){
 
    Int_t ci;      // for color index setting
    TColor *color; // for color definition with alpha
