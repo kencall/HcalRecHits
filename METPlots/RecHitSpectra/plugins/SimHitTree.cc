@@ -112,16 +112,17 @@ class SimHitTree : public edm::stream::EDFilter<> {
       // ----------member data ---------------------------
 	TTree *tt1;
 
+	//run:lumi:event
+	int run;
+	int lumi;
+	int event;
+
 	//Branchs
 	std::vector<float> SimHitsEn;
 	std::vector<int> SimHitsIphi;
 	std::vector<int> SimHitsIeta;
 	std::vector<int> SimHitsDepth;
 	
-	//std::vector<float> SimHitsHEen;
-	//std::vector<int> SimHitsHEiphi;
-	//std::vector<int> SimHitsHEieta;
-	//std::vector<int> SimHitsHEdepth;
 	
 	//SimHit Stuff
 	edm::EDGetTokenT<edm::PCaloHitContainer> tok_hcal_;
@@ -163,6 +164,10 @@ SimHitTree::SimHitTree(const edm::ParameterSet& iConfig)
 	edm::Service<TFileService> fs;
 	tt1 = fs->make<TTree>("SimHitTree","SimHitTree");
 
+	tt1->Branch("run", &run, "run/I");
+	tt1->Branch("lumi", &lumi, "lumi/I");
+	tt1->Branch("event", &event, "event/I");
+
 	tt1->Branch("SimHitsEn","std::vector<float>",&SimHitsEn);
 	tt1->Branch("SimHitsIeta","std::vector<int>",&SimHitsIeta);
 	tt1->Branch("SimHitsIphi","std::vector<int>",&SimHitsIphi);
@@ -193,6 +198,11 @@ SimHitTree::filter(edm::Event& iEvent, const edm::EventSetup& iSetup)
 	SimHitsIeta.clear();
 	SimHitsIphi.clear();
 	SimHitsDepth.clear();
+
+	//run:lumi:event
+	run = iEvent.id().run();
+	lumi = iEvent.id().luminosityBlock();
+	event = iEvent.id().event();
 
 	//////////////////////////////////
 	///SimHits
