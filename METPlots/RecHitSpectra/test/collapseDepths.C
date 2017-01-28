@@ -84,7 +84,7 @@ void collapseDepths(const char *infile, const char *outfile){
 			int ieta = (*readRecHitsHE_ieta).at(ridx);
 			int iphi = (*readRecHitsHE_iphi).at(ridx);
 
-			int legacyDepth = 0; //Collapse everything to depth 0
+			int legacyDepth = 1; //Collapse everything to depth 1
 
 			//Now we scan the legacy vector to see if there is already a matching rechit
 			bool matched = false;
